@@ -16,8 +16,11 @@ export const signup = async (
   req: Request,
   res: Response
 ) => {
+  
   try {
-    const validation = validateSignup(req.body);
+    const validation =
+      validateSignup(req.body);
+
     if (!validation.valid) {
       return res.status(400).json({
         success: false,
@@ -26,10 +29,16 @@ export const signup = async (
       });
     }
 
-    const { fullName, email, password } = req.body;
+    const {
+      fullName,
+      email,
+      password,
+    } = req.body;
 
     const existingUser =
-      await User.findOne({ email });
+      await User.findOne({
+        email,
+      });
 
     if (existingUser) {
       return res.status(400).json({
@@ -39,23 +48,37 @@ export const signup = async (
     }
 
     const hashedPassword =
-      await bcrypt.hash(password, 10);
+      await bcrypt.hash(
+        password,
+        10
+      );
 
-    const user = await User.create({
-      fullName,
-      email,
-      password: hashedPassword,
-    });
+    const user =
+      await User.create({
+        fullName,
+        email,
+        password: hashedPassword,
+      });
 
-    res.status(201).json({
+    const token =
+      generateToken(
+        user._id.toString()
+      );
+      
+    return res.status(201).json({
       success: true,
-      user,
+      token,
     });
   } catch (error) {
-    console.error("Signup error:", error);
-    res.status(500).json({
+    console.error(
+      "Signup error:",
+      error
+    );
+
+    return res.status(500).json({
       success: false,
-      message: "An error occurred during signup",
+      message:
+        "An error occurred during signup",
     });
   }
 };
