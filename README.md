@@ -1,104 +1,176 @@
-# PlantIdentifier
-# 🌿 PlantAI Backend
+# 🌱 PlantAI Frontend
 
-Backend API for the PlantAI application. It provides authentication, AI-powered plant identification using Google Gemini, plant chat functionality, and MongoDB database integration.
+PlantAI is an AI-powered plant care assistant frontend built using React and TypeScript.
+
+The application provides users with an interactive interface to identify plants using AI, manage their personal garden, create plant care reminders, learn about plant care, and communicate with an AI plant assistant.
+
+This repository contains only the frontend implementation.
 
 ---
 
 # 🚀 Features
 
-- User Registration & Login
-- JWT Authentication
-- Protected Routes
-- Plant Image Upload
-- AI Plant Identification using Google Gemini
-- AI Chat about Identified Plants
-- MongoDB Atlas Integration
-- Image Validation with Multer
-- Automatic Expiry of Plant Scans (24 Hours)
-- TypeScript + Express.js
+## 🌿 AI Plant Identification
+
+Users can upload plant images and get AI-generated plant information.
+
+Features:
+
+- Upload plant image
+- Preview uploaded image
+- Display AI identification results
+- Show:
+  - Plant name
+  - Scientific name
+  - Description
+  - Watering requirements
+  - Sunlight requirements
+  - Fertilizer suggestions
+  - Common problems
+  - Care instructions
 
 ---
 
-# 🛠 Tech Stack
+## 🌱 Plant Details
 
-- Node.js
-- Express.js
-- TypeScript
-- MongoDB Atlas
-- Mongoose
-- JWT
-- Multer
-- Google Gemini API
-- bcrypt
-- dotenv
+After identification, users can view detailed information about the plant.
+
+Includes:
+
+- Plant image
+- Scientific classification
+- Care requirements
+- AI-generated recommendations
+- Ask Plant AI feature
 
 ---
 
-# Project Structure
+## 🌳 Personal Garden
+
+Users can manage their saved plants.
+
+Features:
+
+- View saved plants
+- Display plant information
+- Remove plants from garden
+
+---
+
+## ⏰ Plant Care Reminders
+
+Users can create and manage plant care reminders.
+
+Supported activities:
+
+- Watering
+- Fertilizing
+- Pruning
+- Repotting
+- Misting
+
+Features:
+
+- Add reminder
+- Mark reminder as completed
+- Delete reminder
+
+---
+
+## 🤖 Plant AI Chat
+
+Users can ask questions related to their plants.
+
+Examples:
 
 ```
-Backend
+How often should I water this plant?
+
+Why are my leaves turning yellow?
+
+Which fertilizer should I use?
+```
+
+---
+
+## 📚 Learn & Grow
+
+Educational section for improving plant knowledge.
+
+Topics include:
+
+- Plant care basics
+- Pest management
+- Pruning and propagation
+- Common plant problems
+
+Also includes AI-powered plant questions.
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend Technologies
+
+- React.js
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router DOM
+- Shadcn UI
+- Lucide React Icons
+
+---
+
+# 📂 Project Structure
+
+```
+PlantAI-Frontend
 │
 ├── src
-│   ├── controllers
-│   │     auth.controller.ts
-│   │     chat.controller.ts
-│   │     plant.controller.ts
-│   │     user.controller.ts
 │   │
-│   ├── middlewares
-│   │     auth.middleware.ts
-│   │     upload.middleware.ts
+│   ├── components
+│   │   └── UI Components
 │   │
-│   ├── models
-│   │     user.model.ts
-│   │     chat.model.ts
-│   │     plantScan.model.ts
+│   ├── pages
+│   │   ├── Dashboard.tsx
+│   │   ├── PlantIdentify.tsx
+│   │   ├── PlantDetails.tsx
+│   │   ├── Garden.tsx
+│   │   ├── Reminders.tsx
+│   │   ├── Learn.tsx
+│   │   ├── PlantChat.tsx
+│   │   ├── SignIn.tsx
+│   │   └── SignUp.tsx
 │   │
-│   ├── routes
-│   │     auth.routes.ts
-│   │     chat.routes.ts
-│   │     plant.routes.ts
-│   │     user.routes.ts
+│   ├── context
+│   │   └── AuthContext.tsx
 │   │
-│   ├── services
-│   │     gemini.service.ts
-│   │     chat.service.ts
-│   │     plant.service.ts
+│   ├── hooks
 │   │
-│   ├── validators
-│   │
-│   ├── interfaces
-│   │
-│   ├── config
-│   │
-│   ├── app.ts
-│   └── server.ts
+│   ├── App.tsx
+│   └── main.tsx
 │
-├── package.json
-├── tsconfig.json
-├── .env
-└── README.md
+└── package.json
 ```
 
 ---
 
-# Installation
+# ⚙️ Installation
 
-Clone the repository
-
-```bash
-git clone https://github.com/your-username/PlantAI.git
-```
-
-Move into backend
+## Clone Repository
 
 ```bash
-cd Backend
+git clone https://github.com/Awanihub/PlantAI-Frontend.git
 ```
 
-Install dependencies
+Navigate into project:
+
+```bash
+cd PlantAI-Frontend
+```
+
+Install dependencies:
 
 ```bash
 npm install
@@ -106,265 +178,100 @@ npm install
 
 ---
 
-# Environment Variables
+# ▶️ Run Application
 
-Create a `.env` file in the project root.
-
-```env
-PORT=5000
-
-MONGODB_URI=your_mongodb_atlas_connection_string
-
-JWT_SECRET=your_jwt_secret
-
-GEMINI_API_KEY=your_google_gemini_api_key
-```
-
----
-
-# Running the Server
-
-Development
+Start development server:
 
 ```bash
 npm run dev
 ```
 
-Production
-
-```bash
-npm run build
-
-npm start
-```
-
-Server starts at
+Application runs on:
 
 ```
-http://localhost:5000
+http://localhost:5173
 ```
 
 ---
 
-# API Endpoints
+# 🔐 Authentication
 
-## Authentication
+The frontend uses JWT-based authentication.
 
-### Register
-
-```
-POST /api/auth/register
-```
-
-### Login
+Authentication flow:
 
 ```
-POST /api/auth/login
-```
-
-### Verify OTP
-
-```
-POST /api/auth/verify-otp
-```
-
----
-
-## User
-
-### Get Profile
-
-```
-GET /api/user/profile
-```
-
-Authorization Required
-
-```
-Bearer Token
+User Login
+     |
+     |
+Backend validates credentials
+     |
+     |
+JWT Token Generated
+     |
+     |
+Stored in Browser Local Storage
+     |
+     |
+Used for Protected API Requests
 ```
 
 ---
 
-## Plant
+# 🔗 Backend Integration
 
-### Identify Plant
+Frontend communicates with the PlantAI backend through REST APIs.
 
-```
-POST /api/plant/identify
-```
-
-Headers
+Backend Repository:
 
 ```
-Authorization: Bearer <token>
+PlantAI-Backend
 ```
 
-Body
+Main API features:
+
+- Authentication
+- Plant identification
+- Garden management
+- Reminder management
+- AI chat
+- Learning assistant
+
+---
+
+# 🖼️ Screenshots
+
+(Add application screenshots here)
+
+Example:
 
 ```
-form-data
-
-image : File
-```
-
-Returns
-
-```json
-{
-  "success": true,
-  "plantName": "...",
-  "scientificName": "...",
-  "description": "...",
-  "wateringTips": "...",
-  "sunlightRequirements": "...",
-  "fertilizerSuggestions": "...",
-  "commonProblems": "...",
-  "careInstructions": "..."
-}
+Dashboard
+Plant Identification
+Garden
+Reminders
+Learn Section
 ```
 
 ---
 
-## Chat
+# 🌟 Future Improvements
 
-### Ask Plant AI
-
-```
-POST /api/chat/ask
-```
-
-Headers
-
-```
-Authorization: Bearer <token>
-```
-
-Body
-
-```json
-{
-  "plantInfo": {
-    "plantName": "...",
-    "scientificName": "...",
-    "description": "...",
-    "wateringTips": "...",
-    "sunlightRequirements": "...",
-    "fertilizerSuggestions": "..."
-  },
-  "question": "How often should I water this plant?"
-}
-```
-
-Response
-
-```json
-{
-  "success": true,
-  "answer": "Water this plant once every 5–7 days depending on the soil moisture."
-}
-```
+- Mobile responsive improvements
+- Push notifications
+- Offline plant collection
+- Plant growth tracking UI
+- Weather-based plant recommendations
+- Dark mode improvements
 
 ---
 
-# Authentication
+# 👨‍💻 Author
 
-All protected routes require a JWT token.
-
-Example Header
-
-```
-Authorization: Bearer <JWT_TOKEN>
-```
+**Awantika Singh**
 
 ---
 
-# AI Integration
+## License
 
-Google Gemini 2.5 Flash is used for
-
-- Plant Identification
-- Plant Care Information
-- AI Plant Chat
-
----
-
-# Image Upload
-
-Handled using Multer.
-
-Supported Formats
-
-- JPG
-- JPEG
-- PNG
-- WEBP
-
-Maximum Size
-
-```
-5 MB
-```
-
----
-
-# Database Collections
-
-## Users
-
-Stores
-
-- Name
-- Email
-- Password
-- OTP
-
----
-
-## Plant Scans
-
-Stores
-
-- User ID
-- Plant Image
-- Plant Details
-- Care Information
-- Expiry Time
-
----
-
-## Chats
-
-Stores
-
-- User
-- Plant
-- Conversation History
-
----
-
-# Security
-
-- Password Hashing using bcrypt
-- JWT Authentication
-- Protected APIs
-- Image Type Validation
-- File Size Validation
-- Environment Variables
-
----
-
-# Future Improvements
-
-- Disease Detection
-- Weather-based Suggestions
-- Watering Reminder
-- Scan History
-- Voice Chat
-- Multi-language Support
-
----
-
-# Author
-
-Awantika Singh
+This project is created for learning and development purposes.
