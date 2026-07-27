@@ -1,21 +1,26 @@
 import { GoogleGenAI } from "@google/genai";
 import { IMessage } from "../interfaces/chat.interface";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY!,
-});
+let ai: GoogleGenAI;
+
+const getAI = () => {
+  if (!ai) {
+    ai = new GoogleGenAI({
+      apiKey: process.env.GEMINI_API_KEY!,
+    });
+  }
+  return ai;
+};
 
 export const identifyPlant = async (
   imageBase64: string,
   mimeType: string
 ): Promise<string> => {
-  const response = await ai.models.generateContent({
+  const response = await getAI().models.generateContent({
     model: "gemini-2.5-flash",
-
     contents: [
       {
         role: "user",
-
         parts: [
           {
             inlineData: {
@@ -23,7 +28,6 @@ export const identifyPlant = async (
               mimeType,
             },
           },
-
           {
             text: `
 You are an expert botanist.
@@ -113,9 +117,18 @@ Instructions:
 - Use plant information as context
 `;
 
-  const response = await ai.models.generateContent({
+  const response = await getAI().models.generateContent({
     model: "gemini-2.5-flash",
-    contents: prompt,
+    contents: [
+      {
+        role: "user",
+        parts: [
+          {
+            text: prompt,  // ✅ fixed: prompt string wrapped in correct format
+          },
+        ],
+      },
+    ],
   });
 
   return response.text ?? "";

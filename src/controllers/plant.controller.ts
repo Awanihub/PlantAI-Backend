@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { validatePlantIdentification } from "../validators/plant.validator";
 import { identifyPlant } from "../services/gemini.service";
+import { createPlantScan } from "../services/plant.service";
 
 export const identifyPlantController = async (
   req: Request,
@@ -23,10 +24,7 @@ export const identifyPlantController = async (
         message: "Plant image is required",
       });
     }
-    console.log("Validating plant image...");
-    console.log(
-      `Received file: ${req.file.originalname}, type: ${req.file.mimetype}, size: ${req.file.size} bytes`
-    );
+
     const imageBase64 = req.file.buffer.toString("base64");
 
     console.log("Calling Gemini...");
@@ -72,8 +70,19 @@ export const identifyPlantController = async (
       });
     }
 
+    const decoded = (req as any).user;
+
+    const plantScan = await createPlantScan(
+      decoded.userId,
+      req.file.buffer,
+      req.file.mimetype,
+      plantData
+    );
+
     return res.status(200).json({
       success: true,
+
+      scanId: plantScan._id,
 
       plantName: plantData.plantName,
       scientificName: plantData.scientificName,
@@ -86,10 +95,10 @@ export const identifyPlantController = async (
         plantData.fertilizerSuggestions,
 
       commonProblems:
-        plantData.commonProblems || [],
+        plantData.commonProblems || "",
 
       careInstructions:
-        plantData.careInstructions || [],
+        plantData.careInstructions || "",
     });
   } catch (error) {
     console.error(

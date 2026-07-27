@@ -1,9 +1,10 @@
 import dotenv from "dotenv";
+dotenv.config(); // call this immediately, before other imports execute their top-level code
+
 import app from "./app";
 import connectDB from "./config/db";
 import { validateEnvironmentVariables } from "./config/env";
-
-dotenv.config();
+import gardenRoutes from "./routes/garden.routes";
 
 validateEnvironmentVariables();
 
@@ -13,6 +14,7 @@ const startServer = async () => {
   try {
     await connectDB();
 
+    app.use("/api/garden", gardenRoutes);
     app.listen(PORT, () => {
       console.log(
         `🚀 Server running on port ${PORT}`

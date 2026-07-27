@@ -1,24 +1,15 @@
 import express from "express";
-
 import { protect } from "../middlewares/auth.middleware";
+import { sendMessage, logoutSession, askPlant } from "../controllers/chat.controller"; // add askPlant
 
-import {
-  sendMessage,
-  logoutSession,
-} from "../controllers/chat.controller";
+// existing routes stay as-is
+
 
 const router = express.Router();
 
-router.post(
-  "/message",
-  protect,
-  sendMessage
-);
+router.post("/ask", protect, askPlant);
+router.post("/message", protect, sendMessage);
+router.delete("/logout", protect, logoutSession);
 
-router.delete(
-  "/logout",
-  protect,
-  logoutSession
-);
 
 export default router;

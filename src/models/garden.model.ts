@@ -1,9 +1,30 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Document } from "mongoose";
 
-const plantScanSchema = new mongoose.Schema(
+export interface IGardenPlant extends Document {
+  userId: mongoose.Types.ObjectId;
+
+  image: {
+    data: Buffer;
+    contentType: string;
+  };
+
+  plantName: string;
+  scientificName: string;
+  description: string;
+  wateringTips: string;
+  sunlightRequirements: string;
+  fertilizerSuggestions: string;
+  commonProblems?: string;
+  careInstructions?: string;
+
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const gardenPlantSchema = new Schema<IGardenPlant>(
   {
     userId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
@@ -13,7 +34,6 @@ const plantScanSchema = new mongoose.Schema(
         type: Buffer,
         required: true,
       },
-
       contentType: {
         type: String,
         required: true,
@@ -59,21 +79,15 @@ const plantScanSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-
-    expiresAt: {
-      type: Date,
-      required: true,
-      index: {
-        expires: 0,
-      },
-    },
   },
   {
     timestamps: true,
   }
 );
 
-export default mongoose.model(
-  "PlantScan",
-  plantScanSchema
+const GardenPlant = mongoose.model<IGardenPlant>(
+  "GardenPlant",
+  gardenPlantSchema
 );
+
+export default GardenPlant;

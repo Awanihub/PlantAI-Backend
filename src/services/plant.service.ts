@@ -1,71 +1,38 @@
 import PlantScan from "../models/plantScan.model";
 
-export const createPlantScan =
-  async (
-    userId: string,
+export const createPlantScan = async (
+  userId: string,
+  imageBuffer: Buffer,
+  contentType: string,
+  plantData: any
+) => {
+  const expiresAt = new Date(
+    Date.now() + 24 * 60 * 60 * 1000
+  );
 
-    imageBuffer: Buffer,
+  return await PlantScan.create({
+    userId,
 
-    contentType: string,
+    image: {
+      data: imageBuffer,
+      contentType,
+    },
 
-    plantData: any
-  ) => {
-    const expiresAt =
-      new Date(
-        Date.now() +
-          24 * 60 * 60 * 1000
-      );
+    plantName: plantData.plantName,
+    scientificName: plantData.scientificName,
+    description: plantData.description,
+    wateringTips: plantData.wateringTips,
+    sunlightRequirements: plantData.sunlightRequirements,
+    fertilizerSuggestions: plantData.fertilizerSuggestions,
 
-    return await PlantScan.create({
-      userId,
+    // Add these two lines
+    commonProblems: plantData.commonProblems,
+    careInstructions: plantData.careInstructions,
 
-      image: {
-        data: imageBuffer,
-        contentType,
-      },
+    expiresAt,
+  });
+};
 
-      plantName:
-        plantData.plantName,
-
-      scientificName:
-        plantData.scientificName,
-
-      description:
-        plantData.description,
-
-      wateringTips:
-        plantData.wateringTips,
-
-      sunlightRequirements:
-        plantData.sunlightRequirements,
-
-      fertilizerSuggestions:
-        plantData.fertilizerSuggestions,
-
-      expiresAt,
-    });
-  };
-
-export const getPlantScanById =
-  async (
-    plantScanId: string
-  ) => {
-    return await PlantScan.findById(
-      plantScanId
-    );
-  };
-
-export const refreshPlantScanTTL =
-  async (
-    plantScanId: string
-  ) => {
-    return await PlantScan.findByIdAndUpdate(
-      plantScanId,
-      {
-        expiresAt: new Date(
-          Date.now() +
-            24 * 60 * 60 * 1000
-        ),
-      }
-    );
-  };
+export function getPlantScanById(plantScanId: any) {
+  throw new Error("Function not implemented.");
+}
