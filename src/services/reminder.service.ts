@@ -7,7 +7,7 @@ export const createReminder = async (
   action: "Water" | "Fertilize" | "Prune" | "Repot" | "Mist",
   reminderDate: Date
 ) => {
-  // Check if the plant belongs to the user
+  
   const plant = await GardenPlant.findOne({
     _id: gardenPlantId,
     userId,

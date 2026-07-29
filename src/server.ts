@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config(); // call this immediately, before other imports execute their top-level code
-
+dotenv.config(); 
 import app from "./app";
 import connectDB from "./config/db";
 import { validateEnvironmentVariables } from "./config/env";
@@ -27,12 +26,12 @@ const startServer = async () => {
 };
 
 process.on("unhandledRejection", (error) => {
-  console.error("❌ Unhandled Promise Rejection:", error);
+  console.error(" Unhandled Promise Rejection:", error);
   process.exit(1);
 });
 
 process.on("uncaughtException", (error) => {
-  console.error("❌ Uncaught Exception:", error);
+  console.error(" Uncaught Exception:", error);
   process.exit(1);
 });
 

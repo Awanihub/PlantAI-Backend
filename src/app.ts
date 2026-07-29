@@ -11,8 +11,14 @@ import reminderRoutes from "./routes/reminder.routes";
 
 const app = express();
 
-// Middlewares — must come BEFORE routes
-app.use(cors());
+
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -28,7 +34,7 @@ app.get("/", (_req, res) => {
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/plants", plantRoutes);
-app.use("/api/chat", chatRoutes);  // ✅ only once, after middlewares
+app.use("/api/chat", chatRoutes); 
 app.use("/api/user", userRoutes);
 app.use("/api/learn", learnRoutes);
 app.use(

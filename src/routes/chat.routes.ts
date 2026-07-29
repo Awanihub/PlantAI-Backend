@@ -2,8 +2,6 @@ import express from "express";
 import { protect } from "../middlewares/auth.middleware";
 import { sendMessage, logoutSession, askPlant } from "../controllers/chat.controller"; // add askPlant
 
-// existing routes stay as-is
-
 
 const router = express.Router();
 
